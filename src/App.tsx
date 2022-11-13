@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import word from './wordlist.json';
 
 // components
@@ -15,6 +15,34 @@ export default function App() {
   const incorrectGuesses = guessedLetters.filter(
     (letter) => !wordToGuess.includes(letter),
   );
+
+  // const addGussedLetter = useCallback((key:string)) => {
+  // }
+
+  const addGussedLetter = useCallback(
+    (key: string) => {
+      if (guessedLetters.includes(key)) return;
+      setGuessedLetters((prev) => [...prev, key]);
+    },
+    [guessedLetters],
+  );
+
+  // const addGussedLetter = (key: string) => {
+  // };
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      console.log(e.key);
+      const key = e.key;
+      if (!key.match(/^[a-z]$/)) return;
+      e.preventDefault();
+      addGussedLetter(key);
+    };
+    document.addEventListener('keypress', handler);
+    return () => {
+      document.removeEventListener('keypress', handler);
+    };
+  }, [guessedLetters]);
 
   return (
     <div
