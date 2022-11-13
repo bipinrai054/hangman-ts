@@ -1,30 +1,48 @@
+import './HangmanKeyboard.css';
+
+const KEYS = [
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'n',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z',
+];
+
 export default function HangmanKeyboard() {
-  const word = 'test';
-  const guessedLetters = ['t'];
   return (
     <div
       style={{
-        display: 'flex',
-        gap: '.25rem',
-        fontSize: '6rem',
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        fontFamily: 'monospace',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit,minmax(75px,1fr))',
+        gap: '.5rem',
       }}
     >
-      {word.split('').map((letter, index) => {
+      {KEYS.map((key) => {
         return (
-          <span style={{ borderBottom: '.1em solid black' }} key={index}>
-            <span
-              style={{
-                visibility: guessedLetters.includes(letter)
-                  ? 'visible'
-                  : 'hidden',
-              }}
-            >
-              {letter}
-            </span>
-          </span>
+          <button key={key} className='btn'>
+            {key}
+          </button>
         );
       })}
     </div>
