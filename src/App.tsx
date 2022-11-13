@@ -6,10 +6,12 @@ import HangmanDrawing from './HangmanDrawing';
 import HangmanKeyboard from './HangmanKeyboard';
 import HangmanWord from './HangmanWord';
 
+const getWord = () => {
+  return word[Math.floor(Math.random() * word.length)];
+};
+
 export default function App() {
-  const [wordToGuess, setWordToGuess] = useState(() => {
-    return word[Math.floor(Math.random() * word.length)];
-  });
+  const [wordToGuess, setWordToGuess] = useState(getWord);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
   const incorrectGuesses = guessedLetters.filter(
@@ -31,7 +33,6 @@ export default function App() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      console.log(e.key);
       const key = e.key;
       if (!key.match(/^[a-z]$/)) return;
       e.preventDefault();
@@ -42,6 +43,20 @@ export default function App() {
       document.removeEventListener('keypress', handler);
     };
   }, [guessedLetters]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key;
+      if (key !== 'Enter') return;
+      e.preventDefault();
+      setGuessedLetters([]);
+      setWordToGuess(getWord());
+    };
+    document.addEventListener('keypress', handler);
+    return () => {
+      document.removeEventListener('keypress', handler);
+    };
+  }, []);
 
   return (
     <div
