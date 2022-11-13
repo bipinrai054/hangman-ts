@@ -58,7 +58,11 @@ export default function App() {
         {isLoser ? 'You lost' : isWinner ? 'You won' : 'Guess the word'}
       </div>
       <HangmanDrawing numberOfGusses={incorrectGuesses.length} />
-      <HangmanWord gussedLetters={guessedLetters} wordToGuess={wordToGuess} />
+      <HangmanWord
+        reveal={isLoser}
+        gussedLetters={guessedLetters}
+        wordToGuess={wordToGuess}
+      />
       <div style={{ alignSelf: 'stretch' }}>
         <HangmanKeyboard
           activeLetter={guessedLetters.filter((letter) =>
