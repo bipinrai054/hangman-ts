@@ -33,12 +33,14 @@ type KeyboardProps = {
   activeLetter: string[];
   inActiveLetter: string[];
   addGuessedLetter: (key: string) => void;
+  disabled?: boolean;
 };
 
 export default function HangmanKeyboard({
   activeLetter,
   inActiveLetter,
   addGuessedLetter,
+  disabled = false,
 }: KeyboardProps) {
   return (
     <div
@@ -58,7 +60,7 @@ export default function HangmanKeyboard({
             className={`${styles.btn} ${isActive ? styles.active : ''} ${
               isInActive ? styles.inactive : ''
             }  `}
-            disabled={isActive || isInActive}
+            disabled={isActive || isInActive || disabled}
           >
             {key}
           </button>
