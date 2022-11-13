@@ -1,4 +1,4 @@
-import './HangmanKeyboard.css';
+import styles from './HangmanKeyboard.module.css';
 
 const KEYS = [
   'a',
@@ -29,7 +29,17 @@ const KEYS = [
   'z',
 ];
 
-export default function HangmanKeyboard() {
+type KeyboardProps = {
+  activeLetter: string[];
+  inActiveLetter: string[];
+  addGuessedLetter: (key: string) => void;
+};
+
+export default function HangmanKeyboard({
+  activeLetter,
+  inActiveLetter,
+  addGuessedLetter,
+}: KeyboardProps) {
   return (
     <div
       style={{
@@ -39,8 +49,17 @@ export default function HangmanKeyboard() {
       }}
     >
       {KEYS.map((key) => {
+        const isActive = activeLetter.includes(key);
+        const isInActive = inActiveLetter.includes(key);
         return (
-          <button key={key} className='btn'>
+          <button
+            onClick={() => addGuessedLetter(key)}
+            key={key}
+            className={`${styles.btn} ${isActive ? styles.active : ''} ${
+              isInActive ? styles.inactive : ''
+            }  `}
+            disabled={isActive || isInActive}
+          >
             {key}
           </button>
         );

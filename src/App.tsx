@@ -16,10 +16,7 @@ export default function App() {
     (letter) => !wordToGuess.includes(letter),
   );
 
-  // const addGussedLetter = useCallback((key:string)) => {
-  // }
-
-  const addGussedLetter = useCallback(
+  const addGuessedLetter = useCallback(
     (key: string) => {
       if (guessedLetters.includes(key)) return;
       setGuessedLetters((prev) => [...prev, key]);
@@ -27,16 +24,13 @@ export default function App() {
     [guessedLetters],
   );
 
-  // const addGussedLetter = (key: string) => {
-  // };
-
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       console.log(e.key);
       const key = e.key;
       if (!key.match(/^[a-z]$/)) return;
       e.preventDefault();
-      addGussedLetter(key);
+      addGuessedLetter(key);
     };
     document.addEventListener('keypress', handler);
     return () => {
@@ -59,7 +53,13 @@ export default function App() {
       <HangmanDrawing numberOfGusses={incorrectGuesses.length} />
       <HangmanWord gussedLetters={guessedLetters} wordToGuess={wordToGuess} />
       <div style={{ alignSelf: 'stretch' }}>
-        <HangmanKeyboard />
+        <HangmanKeyboard
+          activeLetter={guessedLetters.filter((letter) =>
+            wordToGuess.includes(letter),
+          )}
+          inActiveLetter={incorrectGuesses}
+          addGuessedLetter={addGuessedLetter}
+        />
       </div>
     </div>
   );
